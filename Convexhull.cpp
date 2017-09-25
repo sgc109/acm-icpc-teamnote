@@ -21,9 +21,6 @@ struct Point{
         if(x != rhs.x) return x < rhs.x;
         return y < rhs.y;
     }
-    ll dot(Point rhs){
-        return x * rhs.x + y * rhs.y;
-    }
     ll cross(Point rhs){
         return x * rhs.y - y * rhs.x;
     }
