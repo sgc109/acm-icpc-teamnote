@@ -1,4 +1,3 @@
-
 cprayer : Grundy number, FFT, String
 
 
