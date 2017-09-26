@@ -9,6 +9,7 @@ typedef complex<double> base;
 const ll INFL = 0x3c3c3c3c3c3c3c3c;
 const double PI = 2.0 * acos(0.0);
 
+/*Reference : blog.myungwoo.kr/54*/
 void fft(vector <base> &a, bool invert){
     int n = sz(a);
     for (int i=1,j=0;i<n;i++){
@@ -39,6 +40,7 @@ void multiply(const vector<int> &a,const vector<int> &b, vector<int>& res){
     vector <base> fa(all(a)), fb(all(b));
     int n = 1;
     while (n < max(sz(a),sz(b))) n <<= 1;
+    n <<= 1;
     fa.resize(n); fb.resize(n);
     fft(fa,false); fft(fb,false);
     for (int i=0;i<n;i++) fa[i] *= fb[i];
