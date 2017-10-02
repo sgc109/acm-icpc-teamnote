@@ -37,6 +37,7 @@ void update(int l, int r, int nl, int nr, int nd, int v){
     if(cnt[nd]) tr[nd] = rngs[nr].r - rngs[nl].l;
     else tr[nd] = (nl == nr ? 0 : tr[2 * nd] + tr[2 * nd + 1]);
 }
+
 int main(){
     fastio();
     cin >> N;
