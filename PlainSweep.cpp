@@ -12,6 +12,7 @@ const ll infl = 0x3c3c3c3c3c3c3c3c;
 struct Rect{
     ll x1, y1, x2, y2;
 };
+
 struct RNG{
     ll l, r;
 };
