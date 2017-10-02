@@ -1,3 +1,2 @@
-Plain Swipping
-Rotating Calipers
+Geometry(Rotating Calipers, kinds of algorithms)
 Simple explanation about Grundy Number, LR-flow, FFT
