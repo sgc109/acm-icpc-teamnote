@@ -15,6 +15,7 @@ struct Rect{
 struct RNG{
     ll l, r;
 };
+
 Rect rs[200003];
 ll tr[1600003], cnt[1600003];
 vector<pair<int,int> > v;
