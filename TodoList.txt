@@ -1,2 +1,5 @@
+sgc109 
 Geometry(Rotating Calipers, kinds of algorithms)
-Simple explanation about Grundy Number, LR-flow, FFT
+
+cprayer
+FFT, manacher
