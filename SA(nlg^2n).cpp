@@ -17,6 +17,7 @@ vector<int> getSA(string& S){
 		for(int i = 1 ; i < n; i++) {
 			tg[SA[i]] = tg[SA[i-1]] + cmp(SA[i-1], SA[i]);
 		}
+        if(tg[SA[n - 1]] == n) break; // 이게 속도 향상에 중요한 컷팅이라고함!
 		g = tg;
 	}
 	return SA;

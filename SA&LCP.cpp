@@ -1,3 +1,9 @@
+/*
+   주의 할점! :
+   SA 는 0 base 고
+   LCP 는 1 base 이다.
+   원래 0 base 를 선호하지만 구현의 간편함을 위해 LCP 만 1 base로 한것임..
+ */
 void countingSort(vector<int>& SA, vector<int>& g, int t){
 	int n = sz(SA);
 	vector<int> tSA(n), c(max(330, n + 1), 0);
@@ -23,6 +29,7 @@ vector<int> getSA(string& S){
 			int bigger = g[SA[i - 1]] < g[SA[i]] || g[SA[i - 1] + t] < g[SA[i] + t];
 			tg[SA[i]] = tg[SA[i-1]] + bigger;
 		}
+        if(tg[SA[n - 1]] == n) break; // 이게 속도 향상에 중요한 컷팅이라고함! 특히 nlgn인 이 코드에서는 더더욱!
 		g = tg;
 	}
 	return SA;
