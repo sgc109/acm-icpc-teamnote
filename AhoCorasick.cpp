@@ -31,9 +31,7 @@ public:
 			int sz = s.size();
 			for(int i = 0; i < sz; i++){
 				int v = s[i] - 'a';
-				if(!curr->next[v]){
-					curr->next[v] = new trie();
-				}
+				if(!curr->next[v]) curr->next[v] = new trie();
 				curr = curr->next[v];
 			}
 			curr->output = index;
@@ -44,9 +42,7 @@ public:
 		root = new trie();
 		root->fail = root;
 		int sz = arr.size();
-		for(int i = 0; i < sz; i++){
-			root->insert(arr[i], i + 1);
-		}
+		for(int i = 0; i < sz; i++) root->insert(arr[i], i + 1);
 		queue<trie*> q;
 		q.push(root);
 		while(!q.empty()){
@@ -93,26 +89,3 @@ public:
 		return res;
 	}
 };
-
-vector<string> vs;
-string s;
-
-int main(){
-	cin.tie(NULL);
-	cin.sync_with_stdio(false);
-	cout.sync_with_stdio(false);
-	int N;
-	cin >> N;
-	for(int i = 0; i < N; i++){
-		cin >> s;
-		vs.push_back(s);
-	}
-	AhoCorasick aho(vs);
-	int Q;
-	cin >> Q;
-	for(int i = 0; i < Q; i++){
-		cin >> s;
-		printf("%s\n", aho.getPos(s).size() ? "YES" : "NO");
-	}
-	return 0;
-}
