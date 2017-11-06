@@ -1,13 +1,3 @@
-#include <bits/stdc++.h>
-
-using namespace std;
-
-typedef long long ll;
-typedef long long unsigned llu;
-typedef long double ld;
-
-const int inf = 0x3c3c3c3c;
-const ll infl = 0x3c3c3c3c3c3c3c3c;
 const int MAX_C = 26;
 
 class AhoCorasick{

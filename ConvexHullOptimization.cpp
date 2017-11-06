@@ -1,11 +1,3 @@
-#include <bits/stdc++.h>
-#define pb push_back
-#define all(v) (v).begin(),(v).end()
-#define sz(v) ((int)(v).size())
-#define fastio() ios::sync_with_stdio(0),cin.tie(0)
-using namespace std;
-typedef long long ll;
-
 int N;
 ll dp[100003];
 ll A[100003],B[100003];

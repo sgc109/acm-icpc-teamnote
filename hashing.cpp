@@ -1,10 +1,3 @@
-#include <bits/stdc++.h>
-#define fastio() ios_base::sync_with_stdio(false),cin.tie(NULL)
-
-using namespace std;
-typedef long long ll;
-const int INF = 0x3c3c3c3c;
-const long long INFL = 0x3c3c3c3c3c3c3c3c;
 const int base = 257;
 ll mod[2] = {(ll)1e9+9999, (ll)1e9+99999};
 ll poww[2];
