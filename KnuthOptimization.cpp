@@ -1,13 +1,3 @@
-#include <bits/stdc++.h>
-#define pb push_back
-#define all(v) (v).begin(),(v).end()
-#define sz(v) ((int)(v).size())
-#define fastio() ios::sync_with_stdio(0),cin.tie(0)
-using namespace std;
-
-typedef long long ll;
-const int MAX_N = 102;
-
 ll D[5003][5003];
 int pSum[5003],K[5003][5003];
 int f[5003];

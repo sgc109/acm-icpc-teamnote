@@ -1,14 +1,3 @@
-#include <bits/stdc++.h>
-
-using namespace std;
-
-typedef long long ll;
-typedef long long unsigned llu;
-typedef long double ld;
-
-const int inf = 0x3c3c3c3c;
-const ll infl = 0x3c3c3c3c3c3c3c3c;
-
 /*
 2017-10-17 edited 
 res[i] = i번째 문자를 중심으로 하는 팰린드롬의 반지름(문자열은 0부터 시작한다고 가정)

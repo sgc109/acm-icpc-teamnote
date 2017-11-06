@@ -5,39 +5,39 @@ struct Segtree{
 		int tmpSize = (int)arr.size();
 		size = 1;
 		while(size < tmpSize) size *= 2;
-		tree = vector<ll>(2*size, 0);
-		lazy = vector<ll>(2*size, 0);
+		tree = vector<ll>(2 * size, 0);
+		lazy = vector<ll>(2 * size, 0);
 
 		for(int i = 0 ; i < (int)arr.size(); i++) tree[size + i] = arr[i];
-		for(int i = size - 1; i > 0; i--) tree[i] = tree[2*i] + tree[2*i + 1];
+		for(int i = size - 1; i > 0; i--) tree[i] = tree[2 * i] + tree[2 * i + 1];
 	}
-	ll query(int s, int e, int nodeL, int nodeR, int node){
-		updateLazy(nodeL, nodeR, node);
-		if(s <= nodeL && nodeR <= e) return tree[node];
-		if(e < nodeL || nodeR < s) return 0;
-		int nodeM = (nodeL + nodeR) / 2;
-		ll leftRes = query(s, e, nodeL, nodeM, 2*node);
-		ll rightRes = query(s, e, nodeM + 1, nodeR, 2*node + 1);
+	ll query(int s, int e, int nl, int nr, int nd){
+		updateLazy(nl, nr, nd);
+		if(s <= nl && nr <= e) return tree[nd];
+		if(e < nl || nr < s) return 0;
+		int nm = (nl + nr) / 2;
+		ll leftRes = query(s, e, nl, nm, 2 * nd);
+		ll rightRes = query(s, e, nm + 1, nr, 2 * nd + 1);
 		return leftRes + rightRes;
 	}
-	ll update(int s, int e, int nodeL, int nodeR, ll val, int node){
-		updateLazy(nodeL, nodeR, node);
-		if(s <= nodeL && nodeR <= e) {
-			lazy[node] += val;
-			updateLazy(nodeL, nodeR, node);
-			return tree[node];
+	ll update(int s, int e, int nl, int nr, ll val, int nd){
+		updateLazy(nl, nr, nd);
+		if(s <= nl && nr <= e) {
+			lazy[nd] += val;
+			updateLazy(nl, nr, nd);
+			return tree[nd];
 		}
-		if(e < nodeL || nodeR < s) return tree[node];
-		int nodeM = (nodeL + nodeR) / 2;
-		ll leftRes = update(s, e, nodeL, nodeM, val, 2*node);
-		ll rightRes = update(s, e, nodeM + 1, nodeR, val, 2*node + 1);
-		return tree[node] = leftRes + rightRes;
+		if(e < nl || nr < s) return tree[nd];
+		int nm = (nl + nr) / 2;
+		ll leftRes = update(s, e, nl, nm, val, 2 * nd);
+		ll rightRes = update(s, e, nm + 1, nr, val, 2 * nd + 1);
+		return tree[nd] = leftRes + rightRes;
 	}
-	void updateLazy(int nodeL, int nodeR, int node){
-		if(lazy[node]) {
-			tree[node] += (nodeR - nodeL + 1) * lazy[node];
-			if(node < size) lazy[2*node] += lazy[node], lazy[2*node + 1] += lazy[node];
-			lazy[node] = 0;
+	void updateLazy(int nl, int nr, int nd){
+		if(lazy[nd]) {
+			tree[nd] += (nr - nl + 1) * lazy[nd];
+			if(nd < size) lazy[2 * nd] += lazy[nd], lazy[2 * nd + 1] += lazy[nd];
+			lazy[nd] = 0;
 		}
 	}
 	ll query(int s, int e){
