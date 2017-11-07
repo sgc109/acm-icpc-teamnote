@@ -27,6 +27,7 @@
    위와 같이 maximum-flow 를 돌린후 최대유량이
    모든 간선들의 demand 유량의 합과 같으면 feasible,
    다르면 unfeasible!
+
  */
 struct Dinic{
 	struct edge{
@@ -105,8 +106,8 @@ struct LRMaxFlow{
 		inSum = vector<int>(size, 0);
 		outSum = vector<int>(size, 0);
 	}
-	void addEdge(int from, int to, int cap, int lower){
-		dinic.addEdge(from, to, cap);
+	void addEdge(int from, int to, int lower, int upper){
+		dinic.addEdge(from, to, upper - lower);
 		inSum[to] += lower;
 		outSum[from] += lower;
 	}
