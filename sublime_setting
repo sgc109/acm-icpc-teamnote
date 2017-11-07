@@ -12,3 +12,11 @@
       }
   ]    
 }
+
+
+sudo /etc/init.d/ssh stop
+sudo /etc/init.d/networking restart
+
+sudo -i
+
+sudo nautilus
