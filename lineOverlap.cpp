@@ -3,7 +3,7 @@ struct Point{
     Point operator-(Point rhs){
         return Point{x - rhs.x, y - rhs.y};
     }
-    ll dot(Point rhs){
+    ll cross(Point rhs){
         return x * rhs.y - y * rhs.x;
     }
 };
@@ -11,7 +11,7 @@ struct Line{
     Point p1, p2;
 };
 int ccw(Point a, Point b, Point c){
-    ll cw = (a - c).dot(b - c);
+    ll cw = (a - c).cross(b - c);
     if(!cw) return 0;
     cw /= abs(cw);
     return (int)cw;
