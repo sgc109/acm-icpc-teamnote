@@ -44,3 +44,12 @@ ll rho(ll n) {
         c--;
     }
 }
+
+void fator(ll n, vector<ll> &arr){
+    if(isPrime(n)){
+        arr.push_back(n);
+        return;
+    }
+    ll f = rho(n);
+    fator(f, arr); fator(n / f, arr);
+}
