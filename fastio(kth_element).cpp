@@ -26,5 +26,4 @@ int main(){
     }
     nth_element(A, A + K - 1, A + N);
     printf("%d", A[K - 1]);
-
 }
