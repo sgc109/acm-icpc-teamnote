@@ -112,10 +112,6 @@ void initChain(int cur, int dad, int grpId){
     }
 }
 
-void init(){
-    dfs(0, -1);
-    initChain(0, -1, 0);
-}
 
 ll query(int u, int v){ // 루트노드는 par 가 0 이기 때문에 이 때 따로 처리해줘야할수도!
     ll ret = -infl;
@@ -146,6 +142,10 @@ void update(int id, ll val){
     int g = grp[nd];
     int idx = nd - ords[g];
     segs[segId[g]].update(idx, val);
+}
+void init(){
+    dfs(0, -1);
+    initChain(0, -1, 0);
 }
 int main(){
     fastio();
