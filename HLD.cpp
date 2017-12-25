@@ -49,139 +49,124 @@ struct Segtree{
 
 int N; // 노드의 개수
 int M; // 간선의 개수
-int acc; // 노드 순서 부여할 때 쓰는 누적변수
-vector<vector<pair<int, pair<int,int> > > > G; // 그래프
+vector<vector<pair<int,int> > > G; // 그래프
 vector<int> cnts; // 서브 트리 노드 수
 vector<int> dep; // 루트와의 거리
-vector<int> ords; // 노드 방문 순서
-vector<int> grp; // 노드가 속한 체인
-vector<int> segId; // 각 체인의 간선들의 정보를 담은 세그트리 id
+vector<vector<int> > chain; // 각 노드들을 그룹으로 묶어준 2차원 벡터
+vector<int> grpId; // 노드가 속한 체인
 vector<Segtree> segs; // 세그트리들
-vector<int> tail; // 체인의 끝 노드
 vector<ll> parW; // 각 노드마다 자신의 부모를 잇는 간선의 가중치
 vector<int> par;
-vector<int> edg2nd; // 에지 번호를 받으면 (0을 루트로 했을 때) 자식인 노드 번호를 반환(문제에서 에지 번호로 업데이트 할 때만 필요)
+vector<pair<int,int> > edges;
 
 void dfs(int cur, int dad){
     cnts[cur] = 1;
     for(auto p : G[cur]){
         int nxt = p.first;
-        int idx = p.second.second;
+        int cst = p.second;
         if(nxt == dad) continue;
         dep[nxt] = dep[cur] + 1;
-        edg2nd[idx] = nxt;
         par[nxt] = cur;
+        parW[nxt] = cst;
         dfs(nxt, cur);
         cnts[cur] += cnts[nxt];
     }
 }
 
-void initChain(int cur, int dad, int grpId){
-    tail[grpId] = acc;
-    grp[acc] = grpId;
-    ords[cur] = acc++;
+void initChain(int cur, int dad){
+    grpId[cur] = sz(chain) - 1;
+    chain.back().pb(cur);
     int idx = -1;
     int w;
     for(auto p : G[cur]){
         int nxt = p.first;
-        int cst = p.second.first;
+        int cst = p.second;
         if(nxt == dad) continue;
         if(idx == -1 || cnts[idx] < cnts[nxt]) idx = nxt, w = cst;
     }
     if(idx != -1) {
-        parW[acc] = w; // 나중에 세그트리 구성할 때 각 노드의 ords 들을 순회하며 가중치를 넣어야 하므로 백업해둬야함
-        initChain(idx, cur, grpId);
+        initChain(idx, cur);
     }
     for(auto p : G[cur]){
         int nxt = p.first;
-        int cst = p.second.first;
+        int cst = p.second;
         if(nxt == dad || nxt == idx) continue;
-        parW[acc] = cst;
-        initChain(nxt, cur, nxt); // 그룹의 시작 노드 = 그룹의 번호 가 되도록 설계했다.
-    }
-    int g = grp[ords[cur]];
-    assert((tail[g] == ords[cur]) == (idx == -1)); // 그룹의 끝부분인지 판별하는 두 식이 같은지 체크(좀 더 짧은 걸로 하려고)
-    if(idx == -1){ // 현재 노드가 그룹의 끝부분이라면 세그트리 만들어준다.
-        vector<ll> tvec;
-        for(int i = ords[g]; i <= tail[g]; i++){
-            tvec.pb(parW[i]);
-        }
-        segId[g] = sz(segs);
-        Segtree seg(tvec); 
-        segs.pb(seg);
+        chain.emplace_back();
+        initChain(nxt, cur); // 그룹의 시작 노드 = 그룹의 번호 가 되도록 설계했다.
     }
 }
 
 
 ll query(int u, int v){ // 루트노드는 par 가 0 이기 때문에 이 때 따로 처리해줘야할수도!
-    ll ret = -infl;
+    ll ret = 0;
     while(1){
-        int hu = grp[ords[u]];
-        int hv = grp[ords[v]];
+        int hu = chain[grpId[u]][0];
+        int hv = chain[grpId[v]][0];
         if(hu == hv) break; // 같은 체인에 속하면
         if(dep[hu] < dep[hv]){
-            ret = max(ret, segs[segId[hv]].query(0, ords[v] - ords[hv]));
+            ret = max(ret, segs[grpId[hv]].query(0, dep[v] - dep[hv]));
             v = par[hv];
         }
         else {
-            ret = max(ret, segs[segId[hu]].query(0, ords[u] - ords[hu]));
+            ret = max(ret, segs[grpId[hu]].query(0, dep[u] - dep[hu]));
             u = par[hu];
         }
     }
     if(u == v) return ret;
     if(dep[u] > dep[v]) swap(u, v);
-    int g = grp[ords[u]];
-    int l = ords[u] - g + 1;
-    int r = ords[v] - g;
-    ret = max(ret, segs[segId[g]].query(l, r));
+    int depHead = dep[chain[grpId[u]][0]];
+    int l = dep[u] - depHead + 1;
+    int r = dep[v] - depHead;
+    ret = max(ret, segs[grpId[u]].query(l, r));
 
     return ret;
 }
 void update(int id, ll val){
-    int nd = ords[edg2nd[id]];
-    int g = grp[nd];
-    int idx = nd - ords[g];
-    segs[segId[g]].update(idx, val);
-}
-void init(){
-    dfs(0, -1);
-    initChain(0, -1, 0);
+    int depHead = dep[chain[grpId[id]][0]];
+    int idx = dep[id] - depHead;
+    segs[grpId[id]].update(idx, val);
 }
 int main(){
-    fastio();
+    //fastio();
     cin >> N;
-    G = vector<vector<pair<int, pair<int,int> > > >(N, vector<pair<int, pair<int,int> > >());
+    G = vector<vector<pair<int,int> > >(N, vector<pair<int,int> >());
     cnts = vector<int>(N);
     dep = vector<int>(N);
-    ords = vector<int>(N);
-    grp = vector<int>(N);
-    segId = vector<int>(N);
-    tail = vector<int>(N);
+    grpId = vector<int>(N);
     par = vector<int>(N);
     parW = vector<ll>(N);
-    edg2nd = vector<int>(N);
     for(int i = 0; i < N - 1; i++) {
         int u, v;
         ll w;
         cin >> u >> v >> w;
         u--, v--;
-        G[u].pb({v, {w, i}});
-        G[v].pb({u, {w, i}});
+        G[u].pb({v, w});
+        G[v].pb({u, w});
+        edges.pb({u, v});
     }
-    init();
+    dfs(0, -1);
+    chain.emplace_back();
+    initChain(0, -1);
+    for(auto v : chain){
+        vector<ll> tvec;
+        for(int nd : v) tvec.pb(parW[nd]);
+        Segtree seg = Segtree(tvec);
+        segs.pb(seg);
+    }
     cin >> M;
     for(int i = 0; i < M; i++){
-        int o;
+        int o, u, v, id;
+        ll w;
         cin >> o;
         if(o == 1){
-            int id;
-            ll w;
             cin >> id >> w;
             id--;
-            update(id, w);
+            auto e = edges[id];
+            u = e.first, v = e.second;
+            if(dep[u] > dep[v]) swap(u, v);
+            update(v, w);
         }
         else {
-            int u, v;
             cin >> u >> v;
             u--, v--;
             cout << query(u, v) << '\n';
