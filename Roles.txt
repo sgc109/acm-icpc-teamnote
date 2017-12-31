@@ -1,4 +1,4 @@
-cprayer : Grundy number, FFT, String
+cprayer : Grundy number, FFT, String, math, palindrom
 
 
-sgc109 : LR-flow, Geometry, Plane Sweeping
+sgc109 : LR-flow, Geometry, Plane Sweeping, HLD, CTD, PBS, PST
