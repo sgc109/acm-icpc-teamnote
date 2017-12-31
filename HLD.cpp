@@ -35,13 +35,9 @@ struct HLD{
     };
     int N;
     vector<vector<pair<int,int> > > G;
-    vector<int> cnts; // 서브 트리 노드 수
-    vector<int> dep;
+    vector<int> cnts, dep, grpId, parW, par;
     vector<vector<int> > grp;
-    vector<int> grpId;
     vector<Segtree> segs;
-    vector<int> parW; // 각 노드마다 자신의 부모를 잇는 간선의 가중치
-    vector<int> par;
     HLD(int size) : N(size){
         G = vector<vector<pair<int,int> > >(N, vector<pair<int,int> >());
         cnts = vector<int>(N);
