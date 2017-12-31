@@ -1,14 +1,8 @@
-#include <bits/stdc++.h>
-#define pb push_back
-#define sz(v) ((int)(v).size())
-#define all(v) (v).begin(),(v).end()
-#define fastio() ios::sync_with_stdio(0),cin.tie(0);
-using namespace std;
-typedef long long ll;
-const int mod = 1e9 + 7;
-const int inf = 0x3c3c3c3c;
-const ll infl = 0x3c3c3c3c3c3c3c3c;
-
+/*
+   1. 노드의 개수로 생성자 호출
+   2. addEdge 로 트리 구성
+   3. 쿼리나 업뎃하기 전 꼭 init() 호출해서 초기화
+*/
 struct HLD{
     struct Segtree{
         vector<int> tree;
