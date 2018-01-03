@@ -20,13 +20,8 @@ struct MergeSortTree{
         init(nm + 1, nr, 2 * nd + 1, v);
         auto& lt = tree[2 * nd];
         auto& rt = tree[2 * nd + 1];
-        int pos1 = 0, pos2 = 0;
-        while(pos1 < sz(lt) && pos2 < sz(rt)){
-            if(lt[pos1] < rt[pos2]) tree[nd].pb(lt[pos1++]);
-            else tree[nd].pb(rt[pos2++]);
-        }
-        while(pos1 < sz(lt)) tree[nd].pb(lt[pos1++]);
-        while(pos2 < sz(rt)) tree[nd].pb(rt[pos2++]);
+        tree[nd].resize(sz(lt) + sz(rt));
+        merge(all(lt), all(rt), tree[nd].begin());
     }
     int query(int nl, int nr, int l, int r, int nd, int x){
         if(r < nl || nr < l) return 0;
